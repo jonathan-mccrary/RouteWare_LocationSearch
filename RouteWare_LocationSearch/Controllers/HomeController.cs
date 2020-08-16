@@ -20,13 +20,11 @@ namespace RouteWare_LocationSearch.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Log message in the Index() method");
+
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

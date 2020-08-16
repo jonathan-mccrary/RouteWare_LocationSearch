@@ -4,10 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using React.AspNet;
+using JavaScriptEngineSwitcher.ChakraCore;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace RouteWare_LocationSearch
 {
@@ -24,10 +31,24 @@ namespace RouteWare_LocationSearch
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //services.Add(new ServiceDescriptor(typeof(ILogger), new Logger()));
+
+            services.AddScoped<Contracts.ICSVReader, DataAccess.CSVReader>();
+            services.AddScoped<Contracts.ILocation, Models.Location>();
+
+            services.AddJsEngineSwitcher(options => options.DefaultEngineName = ChakraCoreJsEngine.EngineName)
+                .AddChakraCore();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
+
+            // Add framework services.
+            services.AddMvc();
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -52,6 +73,25 @@ namespace RouteWare_LocationSearch
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            loggerFactory.AddFile("Logs/mylog-{Date}.txt");
+
+
+            // Initialise ReactJS.NET. Must be before static files.
+            app.UseReact(config =>
+            {
+                config
+                  .AddScript("~/js/remarkable.min.js")
+                  .AddScript("~/js/LocationSearch.jsx")
+                  .SetJsonSerializerSettings(new JsonSerializerSettings
+                  {
+                      StringEscapeHandling = StringEscapeHandling.EscapeHtml,
+                      ContractResolver = new CamelCasePropertyNamesContractResolver()
+                  });
+
+            });
+
+
         }
     }
 }
