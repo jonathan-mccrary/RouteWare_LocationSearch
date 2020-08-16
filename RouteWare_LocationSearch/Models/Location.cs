@@ -1,9 +1,10 @@
 ﻿
 using GeoCoordinatePortable;
+using RouteWare_LocationSearch.Contracts;
 
 namespace RouteWare_LocationSearch.Models
 {
-    public class Location
+    public class Location : ILocation
     {
         public Location()
         {

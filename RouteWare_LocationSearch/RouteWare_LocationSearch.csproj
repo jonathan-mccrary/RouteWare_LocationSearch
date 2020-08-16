@@ -19,5 +19,6 @@
     <Folder Include="Logic\" />
     <Folder Include="Mapping\" />
     <Folder Include="Data\" />
+    <Folder Include="Contracts\" />
   </ItemGroup>
 </Project>
