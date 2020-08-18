@@ -9,12 +9,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
 </div>
 <div id="divIndex">
-    @Html.React("VettingBox", new
+    @Html.React("LocationSearchBox", new
     {
-        initialData = Model,
         searchUrl = Url.Action("Search"),
         nearbyLocationsUrl = Url.Action("GetNearbyLocations"),
-        pollInterval = 2000,
+        pollInterval = 2000
     })
     <script src="@Url.Content("~/js/LocationsSearch.jsx")"></script>
     @Html.ReactInitJavaScript()

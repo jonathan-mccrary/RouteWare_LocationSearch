@@ -16,13 +16,13 @@ namespace RouteWare_LocationSearch.Models
         public string State { get; set; }
         public string Zip { get; set; }
         public double Latitude { get; set; }
-        public double Longitudue { get; set; }
+        public double Longitude { get; set; }
         public double DistanceToSelectedLocation { get; set; }
         public GeoCoordinate Coordinate
         {
             get
             {
-                return new GeoCoordinate(Latitude, Longitudue);
+                return new GeoCoordinate(Latitude, Longitude);
             }
         }
     }

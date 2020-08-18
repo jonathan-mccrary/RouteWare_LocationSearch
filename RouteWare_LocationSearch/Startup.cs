@@ -82,7 +82,7 @@ namespace RouteWare_LocationSearch
             {
                 config
                   .AddScript("~/js/remarkable.min.js")
-                  .AddScript("~/js/LocationSearch.jsx")
+                  .AddScript("~/js/LocationsSearch.jsx")
                   .SetJsonSerializerSettings(new JsonSerializerSettings
                   {
                       StringEscapeHandling = StringEscapeHandling.EscapeHtml,

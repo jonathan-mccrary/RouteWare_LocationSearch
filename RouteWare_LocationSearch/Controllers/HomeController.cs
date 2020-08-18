@@ -21,6 +21,8 @@ namespace RouteWare_LocationSearch.Controllers
         public IActionResult Index()
         {
             _logger.LogInformation("Log message in the Index() method");
+            //var test = _csvReader.GetLocationsBySearch("123");
+            //var test2 = _csvReader.GetLocationsNearSelectedLocation(test[0]);
             return View();
         }
 
