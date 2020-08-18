@@ -1,8 +1,21 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using React.AspNet;
+@{
+    Layout = "_Layout";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="reactScripts">
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.0/umd/react.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.0/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.0/prop-types.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+</div>
+<div id="divIndex">
+    @Html.React("VettingBox", new
+    {
+        initialData = Model,
+        searchUrl = Url.Action("Search"),
+        nearbyLocationsUrl = Url.Action("GetNearbyLocations"),
+        pollInterval = 2000,
+    })
+    <script src="@Url.Content("~/js/LocationsSearch.jsx")"></script>
+    @Html.ReactInitJavaScript()
 </div>
