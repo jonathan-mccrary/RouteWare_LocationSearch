@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,8 +23,6 @@ namespace RouteWare_LocationSearch.Controllers
         public IActionResult Index()
         {
             _logger.LogInformation("Log message in the Index() method");
-            //var test = _csvReader.GetLocationsBySearch("123");
-            //var test2 = _csvReader.GetLocationsNearSelectedLocation(test[0]);
             return View();
         }
 
@@ -42,7 +39,13 @@ namespace RouteWare_LocationSearch.Controllers
         {
             _logger.LogInformation("Log message in the Search() method");
             var retVal = _csvReader.GetLocationsBySearch(model);
-            return Json(retVal.GetLocationModels());
+            LocationViewModel viewModel = new LocationViewModel()
+            {
+                ActualCount = retVal.Count,
+                Locations = retVal.GetLocationModels().Take(20).ToList(),
+                Truncated = retVal.Count > 20
+            };
+            return Json(viewModel);
         }
 
         [Route("Home/GetNearbyLocations")]
@@ -51,6 +54,7 @@ namespace RouteWare_LocationSearch.Controllers
         {
             _logger.LogInformation("Log message in the GetNearbyLocations() method");
             var retVal = _csvReader.GetLocationsNearSelectedLocation(location);
+
             return Json(retVal.GetLocationModels());
         }
     }

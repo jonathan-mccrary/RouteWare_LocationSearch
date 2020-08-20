@@ -17,7 +17,7 @@ namespace RouteWare_LocationSearch.Models
         public string Zip { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public double DistanceToSelectedLocation { get; set; }
+        public string DistanceToSelectedLocation { get; set; }
         public GeoCoordinate Coordinate
         {
             get

@@ -34,4 +34,14 @@
     <Folder Include="Logs\" />
     <Folder Include="Utils\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\directions.png" />
+    <None Include="wwwroot\pin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\directions.png" />
+    <Content Remove="wwwroot\pin.png" />
+  </ItemGroup>
 </Project>
