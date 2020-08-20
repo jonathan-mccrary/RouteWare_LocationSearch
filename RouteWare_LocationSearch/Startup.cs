@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,18 +15,24 @@ namespace RouteWare_LocationSearch
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            Env = env;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{Env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            //services.Add(new ServiceDescriptor(typeof(ILogger), new Logger()));
 
             services.AddScoped<Contracts.ICSVReader, DataAccess.CSVReader>();
             services.AddScoped<Contracts.ILocation, Models.Location>();
@@ -61,21 +62,6 @@ namespace RouteWare_LocationSearch
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
-
-            loggerFactory.AddFile("Logs/mylog-{Date}.txt");
-
 
             // Initialise ReactJS.NET. Must be before static files.
             app.UseReact(config =>
@@ -88,10 +74,19 @@ namespace RouteWare_LocationSearch
                       StringEscapeHandling = StringEscapeHandling.EscapeHtml,
                       ContractResolver = new CamelCasePropertyNamesContractResolver()
                   });
+            });
+            app.UseStaticFiles();
 
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
 
-
+            loggerFactory.AddFile("Logs/mylog-{Date}.txt");
         }
     }
 }

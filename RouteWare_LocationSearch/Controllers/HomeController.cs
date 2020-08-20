@@ -1,8 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RouteWare_LocationSearch.Contracts;
 using RouteWare_LocationSearch.Models;
+using RouteWare_LocationSearch.Utils;
 
 namespace RouteWare_LocationSearch.Controllers
 {
@@ -33,18 +36,22 @@ namespace RouteWare_LocationSearch.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public ActionResult Search(string searchString)
+        [Route("Home/Search")]
+        [HttpPost]
+        public ActionResult Search(string model)
         {
             _logger.LogInformation("Log message in the Search() method");
-            var retVal = _csvReader.GetLocationsBySearch(searchString);
-            return Json(retVal);
+            var retVal = _csvReader.GetLocationsBySearch(model);
+            return Json(retVal.GetLocationModels());
         }
 
+        [Route("Home/GetNearbyLocations")]
+        [HttpPost]
         public ActionResult GetNearbyLocations(Location location)
         {
             _logger.LogInformation("Log message in the GetNearbyLocations() method");
             var retVal = _csvReader.GetLocationsNearSelectedLocation(location);
-            return Json(retVal);
+            return Json(retVal.GetLocationModels());
         }
     }
 }

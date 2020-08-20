@@ -1,14 +1,10 @@
-﻿using GeoCoordinatePortable;
-using RouteWare_LocationSearch.Contracts;
-using RouteWare_LocationSearch.Utils;
-
+﻿using System;
 namespace RouteWare_LocationSearch.Models
 {
-    public class Location : ILocation
+    public class LocationModel
     {
-        public Location()
+        public LocationModel()
         {
-
         }
 
         public string Address { get; set; }
@@ -18,12 +14,5 @@ namespace RouteWare_LocationSearch.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public double DistanceToSelectedLocation { get; set; }
-        public GeoCoordinate Coordinate
-        {
-            get
-            {
-                return new GeoCoordinate(Latitude, Longitude);
-            }
-        }
     }
 }
