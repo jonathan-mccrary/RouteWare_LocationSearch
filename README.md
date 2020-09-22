@@ -1,7 +1,14 @@
 # RouteWare_LocationSearch
 Location Search App for RouteWare interview
 
-This is a .NET Core MVC single-page application using React.js as the UI builder. Since it was built on Visual Studio for Mac, the JavaScriptEngineSwitcher.ChakraCore.Native.osx-x64 (3.7.1) dependency will need to be changed to a windows native package.
+Prompt: Using the .NET tools and technologies that you are most familiar with:
+Write an application that allows the user to search the attached Data.csv file on the Address field. It does not need to search the City, State or Zip fields.
+Display the results to the user.
+When a user selects a row in the results
+Display another set of results that shows the 10 closest locations in Data.csv based upon the selected row in the first set of results.
+
+
+Description: This is a .NET Core MVC single-page application using React.js as the UI builder. Since it was built on Visual Studio for Mac, the JavaScriptEngineSwitcher.ChakraCore.Native.osx-x64 (3.7.1) dependency will need to be changed to a windows native package.
 
 
 Dependencies:
